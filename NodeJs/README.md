@@ -1,6 +1,6 @@
 # :raising_hand:이니허브 통합인증 JSP 샘플
 이니허브 통합인증 연동 Node.js 샘플입니다.  
-이니허브 서비스 구성도, 연동 흐름 등 보다 자세한 내용은 [이니허브 온라인 가이드](https://www.inihub.biz)를 참고하세요.
+이니허브 서비스 구성도, 연동 흐름 등 보다 자세한 내용은 [이니허브 온라인 가이드](http://www2.inihub.biz/docs)를 참고하세요.
 ## 데모
 [데모](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp)
 
