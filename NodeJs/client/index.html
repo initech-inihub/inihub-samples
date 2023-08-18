@@ -19,8 +19,8 @@
     </div>
 </div>
 
-<script src="https://pol-stg.inihub.biz/lib/jquery-1.12.4.js"></script>
-<script src="https://pol-stg.inihub.biz/inihub.js?dt=20230810"></script>
+<script src="${이니허브 정책서버 주소}/lib/jquery-1.12.4.js"></script>
+<script src="${이니허브 정책서버 주소}/inihub.js?dt=20230810"></script>
 <script>
 
     // 이니허브 통합인증창 상태 코드
@@ -32,10 +32,10 @@
     function init() {
 
         IHUB_C.init({
-            baseUrl : 'https://pol-stg.inihub.biz',
-            confName: '/conf/inihubEnvConfAWSSamgaDoc.json', //inihubEnvConf.json
-            clientId: 'd9ce7cae-72df-466f-8462-17b3af57cf81',
-            appKey  : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhY2Nlc3NUb2tlbiIsInNjb3BlIjoiQVBQX0tFWSIsImlzcyI6Imh0dHBzOlwvXC9hdXRoLmluaWh1Yi5iaXoiLCJleHAiOjIwMDY5MTY2NDcsImp0aSI6IjJYSUpCOW1jU0hzX0VtblNDZWdqIiwiY2xpZW50X2lkIjoiZDljZTdjYWUtNzJkZi00NjZmLTg0NjItMTdiM2FmNTdjZjgxIn0.m8piEp-N-EuVHsy4fgUi89ZEBTHck2BXOD9pWN6dfyASTbTmz4APzgvDM_b-j0aAdWyzhIWsanOerr1KYe8kHSc0jaGRmiZ8mdjhFZMkrpQ_tlqsL-jZekLC4HpUrO9PG_6bs2TNjBiQrVGG8eNlkuJBNV4jS9lf6uzb1ysn_Ukgqp-WUvjr7_v_hloUH3ARBkM2QGBOIJ0F6GhTXi9ucSYXrZYpO-fnS7TnCz4oWuRPnAhKXhsm51Ln-6-14ZWGtSZOq9px8_v0k0B3mAJLAT8Ve06pu51gMGy8dj3FdqEhnTPuNM4ov2iv-C1SQ6bfjvGThP1ZgAVd_xlRO0_inQ'
+            baseUrl : '${이니허브 정책서버 주소}',
+            confName: '/conf/inihubEnvConf.json',
+            clientId: '${이용기관 어플리케이션 ID}',
+            appKey  : '${이용기관 어플리케이션 APP-KEY}'
         }).then(function () {
             state = 1
             alert('초기화 완료');
