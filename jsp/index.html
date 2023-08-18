@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이니허브 통합인증창 샘플</title>
+</head>
+<body>
+<form id="form" name="form" action="success.jsp" method="post">
+    <input type="hidden" id="authToken" name="authToken">
+</form>
+<div>
+    <h3>이니허브 통합인증창 샘플</h3>
+    <div>
+        <input type="button" value="초기화" onclick="init()">
+        <input type="button" value="인증" onclick="auth()">
+    </div>
+</div>
+
+<script src="${이니허브 정책서버 주소}/lib/jquery-1.12.4.js"></script>
+<script src="${이니허브 정책서버 주소}/inihub.js?dt=20230810"></script>
+<script>
+
+    // 이니허브 통합인증창 상태 코드
+    let state = 0;
+
+    /*
+     * 이니허브 통합인증창 초기화
+     */
+    function init() {
+
+        IHUB_C.init({
+            baseUrl : '${이니허브 정책서버 주소}',
+            confName: '/conf/inihubEnvConf.json',
+            clientId: '${이용기관 어플리케이션 ID}',
+            appKey  : '${이용기관 어플리케이션 APP-KEY}'
+        }).then(function () {
+            state = 1
+            alert('초기화 완료');
+        }).catch(function (error) {
+            alert('초기화 실패\n' + JSON.stringify(error));
+        });
+    }
+
+    /*
+     * 이니허브 통합인증창 호출
+     */
+    function auth() {
+
+        if (state < 1) {
+            alert('초기화를 먼저 실행해 주세요.');
+            return;
+        }
+
+        let getStatus = function (param) {
+            return new Promise((resolve, reject) => {
+                IHUB_C.runAuthFunc(param).then(function (result) {
+                    if (result.resCode === 1200 && result.status === "IN_PROGRESS") {
+                        getStatus(param).then(resolve).catch(reject);
+                        return;
+                    }
+                    resolve(result);
+                }).catch(reject)
+            })
+        }
+
+        IHUB_C.login({
+            authParam: {}
+        }).then(function (result) {
+            if (result.nextStep) {
+                return getStatus({
+                    funcName: result.nextStep.funcName,
+                    authParam: result.nextStep.authParam
+                });
+            }
+            return result;
+
+        }).then(function (result) {
+
+            console.log('authToken:' + result.authToken);
+
+            // 인증토큰 검증을 요청한다.
+            $('#authToken').val(result.authToken);
+            $("#form").submit();
+
+        }).catch(function (error) {
+            alert('인증 실패\n' + JSON.stringify(error));
+        });
+    }
+
+</script>
+</body>
+</html>
