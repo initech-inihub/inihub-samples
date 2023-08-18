@@ -4,7 +4,7 @@
 
 아래 연동 샘플을 활용하여 빠르게 연동을 시작하세요.
 
-* [JSP](https://github.com/initech-inihub/inihub-samples/tree/main/jsp)
+* [JSP](https://github.com/initech-inihub/inihub-samples/tree/main/JSP)
 * [Node-js](https://github.com/initech-inihub/inihub-samples/tree/main/Node-js)
 
 ## 더 알아보기
