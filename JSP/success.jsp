@@ -9,7 +9,85 @@
 <%@ page import="javax.crypto.spec.IvParameterSpec" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
 <%@ page import="org.json.simple.JSONObject" %>
+<%
+
+    /* ================================================================================
+    | 발급 받은 인증토큰 검증을 요청한다. 인증토큰이 유효한 경우 사용자 인증 데이터가 리턴된다.
+    ================================================================================ */
+    String authApiUrl = "${접근토큰 발급 API 주소}";
+    String clientId = "${이용기관 어플리케이션 ID}";
+    String secret   = "${이용기관 어플리케이션 SECRET}";
+    String verifyApiUrl = "${인증토큰 검증 API 주소}";
+    String aesKey = "${데이터 복호화 KEY}";
+    String aesIv  = "${데이터 복호화 IV }";
+
+    // 접근토큰(accessToken) 발급 요청
+    String accessToken = getAccessToken(authApiUrl, clientId, secret);
+    System.out.println("accessToken -> [" + accessToken + "]");
+
+    // 인증토큰(authToken) 검증 요청
+    JSONObject resultObj = verifyAuthToken(verifyApiUrl, accessToken, request.getParameter("authToken"));
+    System.out.println("authToken-verify-result -> [" + resultObj.toString() + "]");
+%>
 <%!
+    /**
+     * 접근토큰 발급 요청
+     * @param apiUrl 접근토큰 발급요청 API 주소
+     * @param clientId 이용기관 어플리케이션 ID
+     * @param secret 이용기관 어플리케이션 인증을 위한 SECERT
+     * @return 접근토큰
+     * @throws Exception
+     */
+    private String getAccessToken(String apiUrl, String clientId, String secret) throws Exception {
+
+        String contentType   = "application/x-www-form-urlencoded; charset=UTF-8";
+        String credentials   = Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes());
+        String authorization = "Basic " + credentials;
+        JSONObject resultObj = post(apiUrl, contentType, authorization, "grant_type=client_credentials");
+        return resultObj.get("access_token").toString();
+    }
+
+    /**
+     * 인증토큰 검증 요청
+     * @param apiUrl 인증토큰 검증요청 API 주소
+     * @param accessToken 접근토큰
+     * @param authToken 인증토큰
+     * @return 인증토큰 검증결과
+     * @throws Exception
+     */
+    private JSONObject verifyAuthToken(String apiUrl, String accessToken, String authToken) throws Exception {
+
+        String contentType    = "application/json; charset=UTF-8";
+        String authorization  = "Bearer " + accessToken;
+        JSONObject requestObj = new JSONObject();
+        requestObj.put("authToken", authToken);
+        return post(apiUrl, contentType, authorization, requestObj.toString());
+    }
+
+    private JSONObject post(String endpoint, String contentType, String authorization, String requestBody) throws Exception {
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
+        connection.setRequestProperty("Content-Type" , contentType  );
+        connection.setRequestProperty("Authorization", authorization);
+        connection.setRequestMethod  ("POST");
+        connection.setDoOutput(true);
+
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(requestBody.getBytes(StandardCharsets.UTF_8));
+
+        int code = connection.getResponseCode();
+        boolean isSuccess = code == 200;
+
+        InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
+        Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject resultObject = (JSONObject) jsonParser.parse(reader);
+        responseStream.close();
+
+        return resultObject;
+    }
+
     /**
      * 데이터 복호화 함수
      * @param encrypted 암호화된 데이터
@@ -35,57 +113,6 @@
         }
     }
 %>
-<%
-    /* ================================================================================
-    | 인증완료 결과로 발급받은 인증토큰(authToken) 검증을 요청하고 결과로 사용자 정보를 획득 한다.
-    ================================================================================ */
-    String clientId = "${이용기관 어플리케이션 ID}";
-    String appKey   = "${이용기관 어플리케이션 APP-KEY}";
-    String inihubApiUrl = "${인증토큰 검증 API 주소}";
-    String aesKey = "${데이터 복호화 KEY}";
-    String aesIv  = "${데이터 복호화 IV }";
-
-    /* ------------------------------------
-    | 인증토큰(authToken) 검증 API 호출
-    ------------------------------------ */
-    URL url = new URL(inihubApiUrl);
-
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    connection.setRequestProperty("Authorization", "Bearer " + appKey);
-    connection.setRequestProperty("Content-Type" , "application/json; charset=UTF-8");
-    connection.setRequestProperty("Client-Id", clientId);
-    connection.setRequestMethod  ("POST");
-    connection.setDoOutput(true);
-
-    String authToken = request.getParameter("authToken");
-    JSONObject obj = new JSONObject();
-    obj.put("authToken", authToken);
-
-    OutputStream outputStream = connection.getOutputStream();
-    outputStream.write(obj.toString().getBytes(StandardCharsets.UTF_8));
-
-    int code = connection.getResponseCode();
-    boolean isSuccess = code == 200;
-
-    InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
-    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-
-    StringBuilder resultDataString = new StringBuilder();
-    String intpuList;
-    while ((intpuList = in.readLine()) != null) {
-        resultDataString.append(intpuList);
-    }
-
-    /* ------------------------------------
-    | 응답 데이터 파싱(JSON)
-    ------------------------------------ */
-    JSONParser jsonParser = new JSONParser();
-    JSONObject resultObj  = (JSONObject) jsonParser.parse(resultDataString.toString());
-    String resCode = resultObj.get("resCode").toString();
-
-    responseStream.close();
-%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -107,31 +134,31 @@
 </head>
 <body>
 <%
-    if (resCode.equals("1200")) {
+    if (resultObj.get("resCode").toString().equals("1200")) {
         String payload = resultObj.get("payload").toString();
-        JSONObject payloadObj = (JSONObject) jsonParser.parse(payload);
+        JSONObject payloadObj = (JSONObject) new JSONParser().parse(payload);
 %>
-    <h3>인증토큰 검증 성공</h3>
-    <p>이름 :
-        <%= decrypt((String) payloadObj.get("uname")    , aesKey, aesIv) %>
-    </p>
-    <p>생년월일 :
-        <%= decrypt((String) payloadObj.get("ubirthday"), aesKey, aesIv) %>
-    </p>
-    <p>성별 :
-        <%= decrypt((String) payloadObj.get("ugender")  , aesKey, aesIv) %>
-    </p>
-    <p>휴대폰번호 :
-        <%= decrypt((String) payloadObj.get("uphone")   , aesKey, aesIv) %>
-    </p>
-    <p>연계정보(CI) :
-        <%= decrypt((String) payloadObj.get("uci")      , aesKey, aesIv) %>
-    </p>
+<h3>인증토큰 검증 성공</h3>
+<p>이름 :
+    <%= decrypt((String) payloadObj.get("uname"    ), aesKey, aesIv) %>
+</p>
+<p>생년월일 :
+    <%= decrypt((String) payloadObj.get("ubirthday"), aesKey, aesIv) %>
+</p>
+<p>성별 :
+    <%= decrypt((String) payloadObj.get("ugender"  ), aesKey, aesIv) %>
+</p>
+<p>휴대폰번호 :
+    <%= decrypt((String) payloadObj.get("uphone"   ), aesKey, aesIv) %>
+</p>
+<p>연계정보(CI) :
+    <%= decrypt((String) payloadObj.get("uci"      ), aesKey, aesIv) %>
+</p>
 <%
-    } else {
+} else {
 %>
-    <h3>인증토큰 검증 실패</h3>
-    <p>[<%= resCode %>] <%= resultObj.get("errorMessage") %></p>
+<h3>인증토큰 검증 실패</h3>
+<p>[<%= resultObj.get("resCode").toString() %>] <%= resultObj.get("errorMessage") %></p>
 <%
     }
 %>
