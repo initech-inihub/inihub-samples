@@ -16,5 +16,5 @@
 * *${데이터 복호화 KEY}*
 * *${데이터 복호화 IV }*
 ## 더 알아보기
-* [이니텍 홈페이지](https://www.initech.com/html/index.html)
 * [이니허브 홈페이지](https://www.inihub.biz)
+* [이니허브 온라인 가이드](http://www2.inihub.biz/docs)
