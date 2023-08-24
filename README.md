@@ -7,7 +7,8 @@
 
 ## 사용 언어별 연동 샘플
 * [JSP](https://github.com/initech-inihub/inihub-samples/tree/main/JSP)
-* [Node.js](https://github.com/initech-inihub/inihub-samples/tree/main/NodeJs)
+* PHP
+* Node.js
 
 
 
