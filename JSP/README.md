@@ -13,7 +13,7 @@
 
 [링크이름](링크주소){: target="_blank"}
 <링크주소>{: target="_blank"}
-<a href="[http://example.com/](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8)" target="_blank">example</a>
+<a href="https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8)" target="_blank">example</a>
 
 
 ## 테스트 방법
