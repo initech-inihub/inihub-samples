@@ -1,4 +1,4 @@
-# :information_desk_person:이니허브 통합인증 JSP 샘플 
+# 이니허브 통합인증 JSP 샘플 
 이니허브 통합인증 서비스 연동 JSP 샘플입니다.  
 
 ## 샘플 파일 구성
