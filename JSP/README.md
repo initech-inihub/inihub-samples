@@ -8,7 +8,7 @@
 |success.jsp|인증토큰 검증 샘플|
 
 ## 데모
-[통합인증창 데모](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8)
+[통합인증창 데모](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8){:target="_blank"}
 
 ## 테스트 방법
 샘플 코드의 아래 항목을 발급받은 정보로 수정 후 테스트 가능합니다.  
