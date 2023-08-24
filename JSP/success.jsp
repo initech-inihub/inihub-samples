@@ -138,27 +138,27 @@
         String payload = resultObj.get("payload").toString();
         JSONObject payloadObj = (JSONObject) new JSONParser().parse(payload);
 %>
-<h3>인증토큰 검증 성공</h3>
-<p>이름 :
-    <%= decrypt((String) payloadObj.get("uname"    ), aesKey, aesIv) %>
-</p>
-<p>생년월일 :
-    <%= decrypt((String) payloadObj.get("ubirthday"), aesKey, aesIv) %>
-</p>
-<p>성별 :
-    <%= decrypt((String) payloadObj.get("ugender"  ), aesKey, aesIv) %>
-</p>
-<p>휴대폰번호 :
-    <%= decrypt((String) payloadObj.get("uphone"   ), aesKey, aesIv) %>
-</p>
-<p>연계정보(CI) :
-    <%= decrypt((String) payloadObj.get("uci"      ), aesKey, aesIv) %>
-</p>
+    <h3>인증토큰 검증 성공</h3>
+    <p>이름 :
+        <%= decrypt((String) payloadObj.get("uname"    ), aesKey, aesIv) %>
+    </p>
+    <p>생년월일 :
+        <%= decrypt((String) payloadObj.get("ubirthday"), aesKey, aesIv) %>
+    </p>
+    <p>성별 :
+        <%= decrypt((String) payloadObj.get("ugender"  ), aesKey, aesIv) %>
+    </p>
+    <p>휴대폰번호 :
+        <%= decrypt((String) payloadObj.get("uphone"   ), aesKey, aesIv) %>
+    </p>
+    <p>연계정보(CI) :
+        <%= decrypt((String) payloadObj.get("uci"      ), aesKey, aesIv) %>
+    </p>
 <%
-} else {
+    } else {
 %>
-<h3>인증토큰 검증 실패</h3>
-<p>[<%= resultObj.get("resCode").toString() %>] <%= resultObj.get("errorMessage") %></p>
+    <h3>인증토큰 검증 실패</h3>
+    <p>[<%= resultObj.get("resCode").toString() %>] <%= resultObj.get("errorMessage") %></p>
 <%
     }
 %>
