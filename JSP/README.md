@@ -11,6 +11,11 @@
 [통합인증창 데모](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8){:target="_blank"}
 <a href="[https://www.google.co.kr/](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8)" target="_blank">통합인증창 데모</a>
 
+[링크이름](링크주소){: target="_blank"}
+<링크주소>{: target="_blank"}
+<a href="[http://example.com/](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:13,8)" target="_blank">example</a>
+
+
 ## 테스트 방법
 샘플 코드의 아래 항목을 발급받은 정보로 수정 후 테스트 가능합니다.  
 * *${이용기관 어플리케이션 ID}*
