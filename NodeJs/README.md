@@ -1,4 +1,4 @@
-# :raising_hand:이니허브 통합인증 Node.js 샘플
+# 이니허브 통합인증 Node.js 샘플
 이니허브 통합인증 서비스 연동 Node.js 샘플입니다.
 
 ## 데모
