@@ -19,9 +19,7 @@
     </div>
 </div>
 
-<script src="${이니허브 정책서버 주소}/lib/jquery-1.12.4.js"></script>
 <script src="${이니허브 정책서버 주소}/inihub.js?dt=20230824"></script>
-
 <script>
 
     // 이니허브 통합인증창 상태 코드
@@ -33,8 +31,9 @@
     function init() {
 
         IHUB_C.init({
-            baseUrl : '${이니허브 정책서버 주소}',
-            appKey  : '${이용기관 어플리케이션 APP-KEY}'
+            baseUrl  : '${이니허브 정책서버 주소}',
+            clientId : '${이용기관 어플리케이션 ID}',
+            appKey   : '${이용기관 어플리케이션 APP-KEY}'
         }).then(function () {
             state = 1
             alert('초기화 완료');
@@ -60,8 +59,8 @@
             console.log('authToken:' + result.authToken);
 
             // 인증토큰 검증을 요청한다.
-            $('#authToken').val(result.authToken);
-            $("#form").submit();
+            document.getElementById("authToken").value = result.authToken;
+            document.getElementById('form').submit();
 
         }).catch(function (error) {
             alert('인증 실패\n' + JSON.stringify(error));
