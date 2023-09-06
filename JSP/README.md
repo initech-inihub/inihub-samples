@@ -11,7 +11,7 @@
 [통합인증창 데모](https://codesandbox.io/p/sandbox/inihub-nodejs-sample-jyfrpp?file=/client/index.html:1,1)
 
 ## 테스트 방법
-샘플 코드의 아래 항목을 발급받은 정보로 수정 후 테스트 가능합니다.  
+샘플 코드의 아래 항목을 발급 받은 정보로 수정 후 테스트 가능합니다.  
 * *${이용기관 어플리케이션 ID}*
 * *${이용기관 어플리케이션 APP-KEY}*
 
