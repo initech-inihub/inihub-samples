@@ -140,19 +140,22 @@
 %>
     <h3>인증토큰 검증 성공</h3>
     <p>이름 :
-        <%= decrypt((String) payloadObj.get("uname"    ), aesKey, aesIv) %>
+        <%= decrypt((String) payloadObj.get("uname"     ), aesKey, aesIv) %>
     </p>
     <p>생년월일 :
-        <%= decrypt((String) payloadObj.get("ubirthday"), aesKey, aesIv) %>
+        <%= decrypt((String) payloadObj.get("ubirthday" ), aesKey, aesIv) %>
     </p>
     <p>성별 :
-        <%= decrypt((String) payloadObj.get("ugender"  ), aesKey, aesIv) %>
+        <%= decrypt((String) payloadObj.get("usex"      ), aesKey, aesIv) %>
+    </p>
+    <p>외국인여부 :
+        <%= decrypt((String) payloadObj.get("uforeigner"), aesKey, aesIv) %>
     </p>
     <p>휴대폰번호 :
-        <%= decrypt((String) payloadObj.get("uphone"   ), aesKey, aesIv) %>
+        <%= decrypt((String) payloadObj.get("uphone"    ), aesKey, aesIv) %>
     </p>
     <p>연계정보(CI) :
-        <%= decrypt((String) payloadObj.get("uci"      ), aesKey, aesIv) %>
+        <%= decrypt((String) payloadObj.get("uci"       ), aesKey, aesIv) %>
     </p>
 <%
     } else {
