@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<script src="${이니허브 정책서버 주소}/inihub.js?dt=20230824"></script>
+<script src="https://dat-stg.inihub.biz:8072/inihub.js?dt=20231205"></script>
 <script>
 
     // 이니허브 통합인증창 상태 코드
@@ -31,9 +31,10 @@
     function init() {
 
         IHUB_C.init({
-            baseUrl  : '${이니허브 정책서버 주소  }',
-            clientId : '${이용기관 어플리케이션 ID}',
-            appKey   : '${이용기관 어플리케이션 APP-KEY}'
+            confName: '/conf/inihubEnvConfStg.json',
+            baseUrl : 'https://dat-stg.inihub.biz:8072',
+            clientId: '${이용기관 어플리케이션 ID}',
+            appKey  : '${이용기관 어플리케이션 APP-KEY}'
         }).then(function () {
             state = 1
             alert('초기화 완료');
