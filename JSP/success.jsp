@@ -14,10 +14,10 @@
     /* ================================================================================
     | 발급 받은 인증토큰 검증을 요청한다. 인증토큰이 유효한 경우 사용자 인증 데이터가 리턴된다.
     ================================================================================ */
-    String authApiUrl = "${접근토큰 발급 API 주소}";
+    String authApiUrl = "https://dat-stg.inihub.biz:8000/auth/oauth/v2/token";
     String clientId = "${이용기관 어플리케이션 ID}";
     String secret   = "${이용기관 어플리케이션 SECRET}";
-    String verifyApiUrl = "${인증토큰 검증 API 주소}";
+    String verifyApiUrl = "https://dat-stg.inihub.biz:8000/api/v1/ezauth/authtoken/verify.do";
     String aesKey = "${데이터 복호화 KEY}";
     String aesIv  = "${데이터 복호화 IV }";
 
