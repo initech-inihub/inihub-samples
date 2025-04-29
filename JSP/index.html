@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<script src="https://dat-stg.inihub.biz:8000/client/inihub.js?dt=20231205"></script>
+<script src="https://dat-stg.inihub.biz:8072/inihub.js?dt=20231205"></script>
 <script>
 
     // 이니허브 통합인증창 상태 코드
@@ -32,7 +32,7 @@
 
         IHUB_C.init({
             confName: '/conf/inihubEnvConfStg.json', // 운영환경에 접속하는 경우 confName 항목 제거
-            baseUrl : 'https://dat-stg.inihub.biz:8000/client',
+            baseUrl : 'https://dat-stg.inihub.biz:8072',
             clientId: '${이용기관 어플리케이션 ID}',
             appKey  : '${이용기관 어플리케이션 APP-KEY}'
         }).then(function () {
