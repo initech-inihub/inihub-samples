@@ -16,10 +16,11 @@
     <div>
         <input type="button" value="초기화" onclick="init()">
         <input type="button" value="인증" onclick="auth()">
+        <input type="button" value="전자서명" onclick="sign()">
     </div>
 </div>
 
-<script src="https://dat-stg.inihub.biz:8072/inihub.js?dt=20231205"></script>
+<script src="https://dat-stg.inihub.biz:8000/client/inihub.js?dt=20250808"></script>
 <script>
 
     // 이니허브 통합인증창 상태 코드
@@ -32,7 +33,7 @@
 
         IHUB_C.init({
             confName: '/conf/inihubEnvConfStg.json', // 운영환경에 접속하는 경우 confName 항목 제거
-            baseUrl : 'https://dat-stg.inihub.biz:8072',
+            baseUrl : 'https://dat-stg.inihub.biz:8000',
             clientId: '${이용기관 어플리케이션 ID}',
             appKey  : '${이용기관 어플리케이션 APP-KEY}'
         }).then(function () {
@@ -44,7 +45,7 @@
     }
 
     /*
-     * 이니허브 통합인증창 호출
+     * 로그인 호출
      */
     function auth() {
 
@@ -65,6 +66,33 @@
 
         }).catch(function (error) {
             alert('인증 실패\n' + JSON.stringify(error));
+        });
+    }
+
+    /*
+     * 전자서명 호출
+     */
+    function sign() {
+
+        if (state < 1) {
+            alert('초기화를 먼저 실행해 주세요.');
+            return;
+        }
+
+        IHUB_C.sign({
+            authParam: {
+                contents: ["전자서명 원문"]
+            }
+        }).then(function (result) {
+
+            console.log('authToken:' + result.authToken);
+
+            // 인증토큰 검증을 요청한다.
+            document.getElementById("authToken").value = result.authToken;
+            document.getElementById('form').submit();
+
+        }).catch(function (error) {
+            alert('전자서명 실패\n' + JSON.stringify(error));
         });
     }
 

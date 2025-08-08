@@ -96,6 +96,9 @@
      * @return 복호화된 데이터
      */
     private String decrypt(String encrypted, String key, String iv) {
+        if (encrypted == null || encrypted.isEmpty()) {
+            return "";
+        }
 
         try{
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -139,6 +142,7 @@
         JSONObject payloadObj = (JSONObject) new JSONParser().parse(payload);
 %>
     <h3>인증토큰 검증 성공</h3>
+    <h4>간편인증 결과</h4>
     <p>이름 :
         <%= decrypt((String) payloadObj.get("uname"     ), aesKey, aesIv) %>
     </p>
@@ -156,6 +160,37 @@
     </p>
     <p>연계정보(CI) :
         <%= decrypt((String) payloadObj.get("uci"       ), aesKey, aesIv) %>
+    </p>
+    <h4>공동인증서 및 금융인증서 결과</h4>
+    <p> 발급자:
+        <%= payloadObj.get("issuerDn") %>
+    </p>
+    <p> 발급대상:
+        <%= payloadObj.get("subjectDn") %>
+    </p>
+    <p> R-Value:
+        <%= payloadObj.get("rValue") %>
+    </p>
+    <p> VID:
+        <%= payloadObj.get("vid") %>
+    </p>
+    <p> VID 해쉬 알고리즘:
+        <%= payloadObj.get("vidHashAlg") %>
+    </p>
+    <p> 인증서 시리얼 번호:
+        <%= payloadObj.get("serial") %>
+    </p>
+    <p> 공개키:
+        <%= payloadObj.get("publicKey") %>
+    </p>
+    <p> 원문:
+        <%= payloadObj.get("plainText") %>
+    </p>
+    <p> 전자서명 값:
+        <%= payloadObj.get("signature") %>
+    </p>
+    <p> 전자서명 데이터:
+        <%= payloadObj.get("signedData") %>
     </p>
 <%
     } else {
